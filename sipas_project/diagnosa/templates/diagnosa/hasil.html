@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Hasil Analisis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #e5e7eb; }
+        .report-page {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-top: 8px solid #15803d; /* green-700 */
+        }
+        .mono { font-family: 'Roboto Mono', monospace; }
+        
+        @media print {
+            body { background-color: white; }
+            .report-page { box-shadow: none; margin: 0; border-top: none; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body class="text-gray-800 pb-16">
+
+    <!-- Top Action Bar (No Print) -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-6 no-print flex justify-between items-center">
+        <a href="/diagnosa" class="text-gray-600 hover:text-gray-900 font-medium flex items-center gap-1">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Kembali ke Form
+        </a>
+        <button onclick="window.print()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded border border-gray-300 flex items-center gap-2 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            Cetak Laporan
+        </button>
+    </div>
+
+    <!-- Report Paper -->
+    <div class="report-page p-8 sm:p-12">
+        
+        <!-- Report Header -->
+        <div class="border-b-2 border-gray-800 pb-6 mb-8 flex justify-between items-end">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 tracking-tight">LAPORAN ANALISIS KLINIS</h1>
+                <p class="text-gray-500 mt-1 font-medium">SISTEM PAKAR DIAGNOSA HEWAN TERNAK</p>
+            </div>
+            <div class="text-right text-sm text-gray-500 mono">
+                <p>Dokumen Ref: CF-RPT-{{ penyakit_utama.kode }}</p>
+            </div>
+        </div>
+
+        <!-- Primary Result Section -->
+        <div class="mb-10">
+            <h2 class="text-sm uppercase tracking-widest text-gray-500 font-bold mb-2">Diagnosis Utama</h2>
+            <div class="bg-gray-50 border border-gray-200 rounded p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <span class="inline-block bg-green-100 text-green-800 font-bold px-2 py-1 rounded text-xs mb-2 border border-green-200">
+                            {{ penyakit_utama.kode }}
+                        </span>
+                        <h3 class="text-2xl font-bold text-gray-900">{{ penyakit_utama.nama }}</h3>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500 mb-1">Tingkat Probabilitas (CF)</p>
+                        <p class="text-3xl font-bold text-green-700">{{ persentase }}%</p>
+                    </div>
+                </div>
+                <div class="text-gray-700 text-sm leading-relaxed mt-4 pt-4 border-t border-gray-200">
+                    <strong class="text-gray-900 block mb-1">Deskripsi Klinis:</strong>
+                    {{ penyakit_utama.deskripsi|default:"-" }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution Section -->
+        <div class="mb-10">
+            <h2 class="text-sm uppercase tracking-widest text-gray-500 font-bold mb-2">Rekomendasi Penanganan Medik</h2>
+            <div class="border-l-4 border-blue-600 bg-blue-50 p-5 rounded-r">
+                <p class="text-gray-800 text-sm leading-relaxed">
+                    {{ penyakit_utama.solusi|default:"Konsultasikan dengan dokter hewan terdekat."|linebreaksbr }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Secondary Possibilities -->
+        {% if hasil_lengkap|length > 1 %}
+        <div class="mb-8">
+            <h2 class="text-sm uppercase tracking-widest text-gray-500 font-bold mb-3">Diagnosis Banding (Alternatif)</h2>
+            <table class="w-full text-sm text-left text-gray-600 border-collapse">
+                <thead>
+                    <tr class="bg-gray-100 border-y border-gray-300">
+                        <th class="py-2 px-3 font-semibold text-gray-700">Kode</th>
+                        <th class="py-2 px-3 font-semibold text-gray-700">Nama Penyakit</th>
+                        <th class="py-2 px-3 font-semibold text-gray-700 text-right">Nilai CF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for penyakit, cf in hasil_lengkap|slice:"1:" %}
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2 px-3 mono text-gray-500">{{ penyakit.kode }}</td>
+                        <td class="py-2 px-3 font-medium text-gray-800">{{ penyakit.nama }}</td>
+                        <td class="py-2 px-3 text-right mono">{{ cf|floatformat:4 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="mt-12 pt-6 border-t border-gray-300 text-xs text-gray-500 text-center">
+            <p>Laporan ini dihasilkan secara otomatis oleh algoritma Certainty Factor berdasarkan input gejala klinis.</p>
+            <p class="mt-1">Keputusan akhir dan tindakan medis tetap menjadi tanggung jawab tenaga medis veteriner profesional.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

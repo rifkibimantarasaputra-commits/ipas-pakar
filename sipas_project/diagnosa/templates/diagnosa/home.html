@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pakar Sapi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #f4f6f8; }
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1596733430284-f7437764b1a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-green-700 rounded flex items-center justify-center text-white font-bold">
+                    SP
+                </div>
+                <span class="font-bold text-gray-900 text-lg tracking-wide">Sistem Pakar Veteriner</span>
+            </div>
+            <nav>
+                <a href="#" class="text-sm font-medium text-gray-600 hover:text-green-700">Dokumentasi</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Hero -->
+    <main class="flex-grow flex flex-col md:flex-row">
+        <!-- Text Content -->
+        <div class="w-full md:w-1/2 flex items-center justify-center p-8 md:p-16 lg:p-24 bg-white">
+            <div class="max-w-lg">
+                <span class="text-green-700 font-semibold tracking-wider uppercase text-sm mb-2 block">Kesehatan Ternak</span>
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
+                    Diagnosa Penyakit Pencernaan Sapi
+                </h1>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    Aplikasi sistem pakar berbasis Certainty Factor untuk membantu peternak dan praktisi kesehatan hewan dalam mengidentifikasi secara dini gangguan pencernaan pada sapi berdasarkan gejala klinis.
+                </p>
+                
+                <div class="flex items-center gap-4">
+                    <a href="/diagnosa" class="bg-green-700 hover:bg-green-800 text-white font-medium py-3 px-8 rounded transition duration-200 shadow-sm">
+                        Mulai Pemeriksaan
+                    </a>
+                    <a href="#about" class="text-gray-600 font-medium hover:text-gray-900 py-3 px-4">
+                        Pelajari Lebih Lanjut
+                    </a>
+                </div>
+                
+                <div class="mt-12 pt-8 border-t border-gray-100 flex items-center gap-6">
+                    <div>
+                        <p class="text-3xl font-bold text-gray-900">4</p>
+                        <p class="text-sm text-gray-500 font-medium">Jenis Penyakit Utama</p>
+                    </div>
+                    <div class="w-px h-12 bg-gray-200"></div>
+                    <div>
+                        <p class="text-3xl font-bold text-gray-900">17+</p>
+                        <p class="text-sm text-gray-500 font-medium">Indikator Gejala</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Image Content -->
+        <div class="w-full md:w-1/2 min-h-[400px] md:min-h-full hero-bg relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent hidden md:block"></div>
+            <div class="absolute inset-0 bg-green-900/10 mix-blend-multiply"></div>
+        </div>
+    </main>
+
+</body>
+</html>
